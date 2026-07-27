@@ -1,0 +1,14 @@
+services:
+  edge-tts:
+    build: .
+    container_name: edge-tts
+    restart: unless-stopped
+    ports:
+      - "8201:8201"
+    networks:
+      - n8n_net
+
+networks:
+  n8n_net:
+    external: true
+    name: n8n-compose-file_default

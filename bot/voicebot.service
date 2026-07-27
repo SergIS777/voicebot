@@ -1,0 +1,16 @@
+[Unit]
+Description=Voice Bot (ARI + Groq STT + ModelScope LLM + edge-tts)
+After=network.target asterisk.service
+Wants=asterisk.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root
+EnvironmentFile=/root/.voicebot.env
+ExecStart=/usr/bin/python3 /root/bot.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,17 @@
+# Секреты
+.env
+*.env
+!.env.example
+
+# Логи и записи
+*.log
+*.wav
+*.mp3
+
+# Python
+__pycache__/
+*.pyc
+
+# Бэкапы
+*.bak
+*.bak[0-9]*
