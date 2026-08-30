@@ -39,7 +39,9 @@ os.makedirs(AUDIO_DIR, exist_ok=True)
 
 # ─── Загрузка конфига ───
 config_name = os.getenv("VOICEBOT_CONFIG", "dental")
-config_path = os.path.join(os.path.dirname(__file__), "..", "configs", f"{config_name}.yaml")
+_base = os.path.dirname(os.path.abspath(__file__))
+_candidates = [os.path.join(_base, "..", "configs", f"{config_name}.yaml"), os.path.join(_base, "configs", f"{config_name}.yaml")]
+config_path = next((p for p in _candidates if os.path.exists(p)), _candidates[0])
 try:
     with open(config_path, encoding="utf-8") as f:
         config = yaml.safe_load(f)
