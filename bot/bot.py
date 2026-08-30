@@ -2,6 +2,7 @@ import asyncio
 import aiohttp
 from aiohttp import web
 import json
+import yaml
 import os
 import time
 import uuid
@@ -35,20 +36,25 @@ MODELSCOPE_TOKEN = os.getenv("MODELSCOPE_TOKEN", "")
 AUDIO_DIR = "/tmp/voicebot"
 os.makedirs(AUDIO_DIR, exist_ok=True)
 
+
+# ─── Загрузка конфига ───
+config_name = os.getenv("VOICEBOT_CONFIG", "dental")
+config_path = os.path.join(os.path.dirname(__file__), "..", "configs", f"{config_name}.yaml")
+try:
+    with open(config_path, encoding="utf-8") as f:
+        config = yaml.safe_load(f)
+    logger.info(f"Loaded config: {config_name}")
+except Exception as e:
+    logger.warning(f"Failed to load config {config_name}: {e}, using defaults")
+    config = {}
+
 # ─── Настройки ───
 
 settings = {
-    "system_prompt": (
-        "Ты — голосовой администратор стоматологии. Ты общаешься с клиентом ТОЛЬКО "
-        "голосом по телефону: он тебя слышит, но не видит никакого экрана. "
-        "Отвечай ОЧЕНЬ кратко, 1-2 коротких предложения, простым разговорным русским. "
-        "КАТЕГОРИЧЕСКИ запрещено: markdown (звёздочки, решётки, списки, ссылки), "
-        "упоминания интерфейсов, экранов, карт, кнопок, иконок, ссылок — клиент не может "
-        "ничего нажать или посмотреть. Задавай не больше одного вопроса за раз."
-    ),
-    "llm_model": "Qwen/Qwen3-30B-A3B-Instruct-2507",
-    "llm_temperature": 0.7,
-    "llm_max_tokens": 80,
+    "system_prompt": config.get("system_prompt", "Ты — голосовой ассистент. Отвечай кратко по телефону."),
+    "llm_model": config.get("llm_model", "Qwen/Qwen3-30B-A3B-Instruct-2507"),
+    "llm_temperature": config.get("llm_temperature", 0.7),
+    "llm_max_tokens": config.get("llm_max_tokens", 80),
     "tts_engine": "edge",
     "silero_voice": "xenia",
     "silero_rate": 1.0,
@@ -56,14 +62,11 @@ settings = {
     "edge_voice": "svetlana",
     "edge_rate": "+12%",
     "edge_pitch": "+8Hz",
-    "greeting": "Здравствуйте! Чем могу помочь?",
-    "error_message": "Извините, не расслышала. Повторите, пожалуйста.",
-    "thinking_message": "Секунду...",
-    "goodbye_message": "До свидания! Хорошего дня.",
-    "budget_exhausted_message": (
-        "Извините, сервис временно недоступен. "
-        "Попробуйте позже. До свидания."
-    ),
+    "greeting": config.get("greeting", "Здравствуйте! Чем могу помочь?"),
+    "error_message": config.get("error_message", "Извините, не расслышала. Повторите, пожалуйста."),
+    "thinking_message": config.get("thinking_message", "Секунду..."),
+    "goodbye_message": config.get("goodbye_message", "До свидания! Хорошего дня."),
+    "budget_exhausted_message": config.get("budget_exhausted_message", "Извините, сервис временно недоступен. Попробуйте позже. До свидания."),
     "record_max_seconds": 10,
     "record_silence_seconds": 3,
     "max_call_duration": 300,
