@@ -1,5 +1,7 @@
 # 🎙️ VoiceBot — голосовой AI-ассистент для телефонии
 
+![License](https://img.shields.io/github/license/SergIS777/voicebot) ![Release](https://img.shields.io/github/v/release/SergIS777/voicebot) ![Tests](https://img.shields.io/badge/tests-pending-yellow)
+
 Полноценный телефонный AI-бот: принимает вызовы по SIP, распознаёт речь,
 отвечает через LLM и озвучивает ответ живым голосом. Собран на бесплатных
 тарифах API. Управляется извне через REST API (для n8n / CRM / автоматизаций).
