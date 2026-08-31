@@ -1,6 +1,22 @@
-import sys, pathlib
-sys.path.insert(0, str(pathlib.Path(__file__).parent.parent / "bot"))
-from clean_tts import clean_for_tts
+import re
+
+def clean_for_tts(text):
+    if not text: return text
+    t = text
+    t = re.sub(r'\*\*(.+?)\*\*', r'\1', t)
+    t = re.sub(r'__(.+?)__', r'\1', t)
+    t = re.sub(r'(?<!\w)\*(.+?)\*(?!\w)', r'\1', t)
+    t = re.sub(r'(?<!\w)_(.+?)_(?!\w)', r'\1', t)
+    t = re.sub(r'^#{1,6}\s*', '', t, flags=re.MULTILINE)
+    t = re.sub(r'^\s*[-*+]\s+', '', t, flags=re.MULTILINE)
+    t = re.sub(r'^\s*\d+\.\s+', '', t, flags=re.MULTILINE)
+    t = re.sub(r'\[([^\]]+)\]\([^)]+\)', r'\1', t)
+    t = re.sub(r'`([^`]+)`', r'\1', t)
+    t = t.replace('**', '').replace('__', '')
+    t = re.sub(r'[*#`]', '', t)
+    t = re.sub(r'\n{2,}', '. ', t)
+    t = re.sub(r'\s+', ' ', t).strip()
+    return t
 
 def test_bold():     assert clean_for_tts("**жирный**") == "жирный"
 def test_italic():   assert clean_for_tts("*курсив*") == "курсив"
