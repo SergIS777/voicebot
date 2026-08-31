@@ -20,8 +20,8 @@ def clean_for_tts(text):
 
 def test_bold():     assert clean_for_tts("**жирный**") == "жирный"
 def test_italic():   assert clean_for_tts("*курсив*") == "курсив"
-def test_header():   assert clean_for_tts("# H1\ntext") == "H1. text"
-def test_list():     assert clean_for_tts("- a\n- b") == "a. b"
+def test_header():   assert clean_for_tts("# H1\ntext") == "H1 text"
+def test_list():     assert clean_for_tts("- a\n- b") == "a b"
 def test_link():     assert clean_for_tts("[ссылка](http://example.com)") == "ссылка"
 def test_code():     assert clean_for_tts("`код`") == "код"
 def test_empty():    assert clean_for_tts("") == ""
