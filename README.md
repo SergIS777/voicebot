@@ -4,7 +4,7 @@
 
 ![Презентация VOICEBOT-ANALYTICS](voicebot.jpeg)
 
-> 📚 **Полная архитектурная документация** (arc42 + C4): [ARCHITECTURE.md](ARCHITECTURE.md)
+## 📚 **Полная архитектурная документация** (arc42 + C4): [ARCHITECTURE.md](ARCHITECTURE.md)
 
 Полноценный телефонный AI-бот: принимает вызовы по SIP...
 
