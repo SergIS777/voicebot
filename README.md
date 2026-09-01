@@ -148,7 +148,11 @@ MIT
 
 ## Автор: **Сергей Исаков** 
 
-## Стек: **Python, Streamlit, pandas, Plotly 
+## Стек
+- **Телефония:** Asterisk 20 · pjsip · ARI (Stasis)
+- **Бот:** Python 3 · aiohttp · REST API
+- **AI:** Groq Whisper (STT) · ModelScope Qwen3-30B (LLM) · edge-tts (TTS)
+- **Инфраструктура:** Docker · systemd · Linux/VPS · cron
 
 ## Связанные проекты: https://github.com/SergIS777/ml-loop · https://github.com/SergIS777/voicebot-analytics · https://github.com/SergIS777/multi-agent-rag
 
