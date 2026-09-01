@@ -158,7 +158,7 @@ MIT
 
 ## Связаться с автором проекта sergeyhigh@gmail.com
 
-## Связанные проекты: 
+## Другие проекты автора: 
 - **https://github.com/SergIS777/ml-loop**
 - **https://github.com/SergIS777/voicebot-analytics**
 - **https://github.com/SergIS777/multi-agent-rag**
