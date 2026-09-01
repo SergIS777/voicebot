@@ -4,7 +4,7 @@
 
 ---
 
-![Презентация VOICEBOT-ANALYTICS](voicebot.jpeg)
+![Презентация VOICEBOT](voicebot.jpeg)
 
 ---
 
@@ -62,31 +62,6 @@ Groq распознаёт текст → Qwen генерирует ответ �
 Asterisk 20 · pjsip · ARI · Python 3 · aiohttp · Groq API · ModelScope API ·
 edge-tts · Docker · systemd
 
----
-
-## Структура репозитория
-```
-voicebot/
-├── README.md
-├── .gitignore
-├── .env.example          # шаблон переменных (без реальных ключей)
-├── bot/
-│   ├── bot.py            # основной бот (ARI + pipeline STT->LLM->TTS)
-│   ├── clean_tts.py      # чистка markdown перед озвучкой
-│   └── voicebot.service  # systemd-юнит
-├── edge-tts/
-│   ├── app.py            # FastAPI-обёртка над edge-tts
-│   ├── Dockerfile
-│   └── docker-compose.yml
-├── asterisk/
-│   ├── pjsip.conf        # SIP-транспорт + endpoint
-│   ├── extensions.conf   # dialplan (200 -> Stasis)
-│   ├── ari.conf          # ARI-пользователь
-│   ├── http.conf         # HTTP/ARI на 127.0.0.1:8088
-│   ├── modules.conf
-│   └── logger.conf
-└── scripts/              # вспомогательные скрипты
-```
 ---
 
 ## Установка
@@ -148,16 +123,10 @@ crontab -l                         # очистка wav
 
 ---
 
-## Защиты (что внутри)
-- **`is_bad_answer()`** — бракует ответы LLM со служебным мусором
-  (`http`, `error`, `traceback`, `<html>` и т.п.): вместо каши бот скажет
-  вежливое «не расслышала, повторите».
-- **`clean_for_tts()`** — срезает markdown (`**жирный**`, `# заголовки`,
-  списки, ссылки) до озвучки, чтобы TTS не читал «звёздочка-звёздочка».
-- **`is_hallucination()`** — отсекает известные галлюцинации Whisper
-  (типа «Субтитры сделал DimaTorzok») на тишине.
-- **HTTP бота на `127.0.0.1`** — служебный порт 8099 не торчит наружу.
-- **cron** — удаляет wav-записи старше часа.
+## Защиты
+Бот не читает «звёздочки», не озвучивает галлюцинации Whisper,
+вежливо отшивается при падении API и не тратит токены на тишину.
+Как устроен каждый механизм (is_bad_answer, clean_for_tts, is_hallucination, VAD, дневной бюджет) — [ARCHITECTURE.md, секции 6 и 8](ARCHITECTURE.md#8-сквозные-концепции).
 
 ---
 
@@ -179,6 +148,8 @@ MIT
 
 ## Автор: **Сергей Исаков** 
 
-## Стек: **Python, Streamlit, pandas, Plotly Связанные проекты: https://github.com/SergIS777/ml-loop · https://github.com/SergIS777/voicebot-analytics · https://github.com/SergIS777/multi-agent-rag**
+## Стек: **Python, Streamlit, pandas, Plotly 
+
+## Связанные проекты: https://github.com/SergIS777/ml-loop · https://github.com/SergIS777/voicebot-analytics · https://github.com/SergIS777/multi-agent-rag
 
 ---
